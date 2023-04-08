@@ -1,0 +1,30 @@
+Description
+Assume you are given the tables below about Facebook pages and page likes. Write a query to return the page IDs of all the Facebook pages that don't have any likes. The output should be in ascending order.
+https://datalemur.com/questions/sql-page-with-no-likes
+
+-- If we are looking for the page id of a page with no likes, then the page_id were looking for shouldn't be on the page_likes table
+
+SELECT p.page_id
+FROM pages p
+LEFT JOIN page_likes pl
+ON p.page_id = pl.page_id
+WHERE pl.page_id IS NULL
+ORDER BY p.page_id ASC
+
+-- Checking if the results (20701, 32728) are accurate
+
+--checking the number
+SELECT COUNT(DISTINCT page_id)
+FROM page_likes
+-- results is 3
+
+SELECT COUNT(*)
+FROM pages
+-- result is 5, 5-3= 2 pages that haven't been liked similar to number to our query
+
+-- results should not be on the page_likes table, checking
+SELECT page_id
+FROM page_likes
+WHERE page_id IN (20701, 32728)
+-- no output displayed
+
